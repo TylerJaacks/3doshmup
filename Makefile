@@ -5,7 +5,7 @@ EXTRA_TOOLS 	= ~/Documents/Development/3do-extra-tools
 
 FILESYSTEM = takeme
 EXENAME	   = $(FILESYSTEM)/LaunchMe
-ISONAME    = Hello3DO.iso
+ISONAME    = 3doshumup.iso
 STACKSIZE  = 4096
 BANNER	   = $(GRAPHICS_SRC)/banner/banner.bmp
 
