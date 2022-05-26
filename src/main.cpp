@@ -4,6 +4,8 @@
 #include "controlpad.h"
 #include "event.h"
 
+#include "Player.h"
+
 // Screen Constants
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
@@ -88,6 +90,8 @@ int main(int argc, char *argv[])
 {
     // Initialize all the things.
     init();
+
+    Player player;
 
     while (TRUE)
     {
