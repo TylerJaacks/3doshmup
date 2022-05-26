@@ -39,6 +39,26 @@ uint32 buttons;
 
 int current_bullet_counter;
 
+void shoot_bullet()
+{
+    if (buttons & ControlA)
+    {
+        if (current_bullet_counter <= MAX_BULLETS)
+        {
+            bullets[current_bullet_counter] = LoadCel("Graphics/bullet", MEMTYPE_CEL);
+
+            bullets[current_bullet_counter]->ccb_XPos = player_ccb->ccb_XPos;
+            bullets[current_bullet_counter]->ccb_YPos = player_ccb->ccb_YPos;
+
+            current_bullet_counter++;
+        }
+        else
+        {
+            current_bullet_counter = 0;
+        }
+    }
+}
+
 // Initialize everything.
 void init()
 {
@@ -60,8 +80,6 @@ void init()
     // Move the cel to the center of the screen;
     player_ccb->ccb_XPos = 144 << FRACBITS_16;
     player_ccb->ccb_YPos = 104 << FRACBITS_16;
-    // Makes it so there is only one cel in the list.
-    // ccb->ccb_Flags |= CCB_LAST;
 
     InitEventUtility(1, 0, LC_Observer);
 }
@@ -94,22 +112,7 @@ int main(int argc, char *argv[])
                 player_ccb->ccb_YPos += PLAYER_VEL_16;
             }
 
-            if (buttons & ControlA)
-            {
-                if (current_bullet_counter <= MAX_BULLETS)
-                {
-                    bullets[current_bullet_counter] = LoadCel("Graphics/bullet", MEMTYPE_CEL);
-
-                    bullets[current_bullet_counter]->ccb_XPos = player_ccb->ccb_XPos;
-                    bullets[current_bullet_counter]->ccb_YPos = player_ccb->ccb_YPos;
-
-                    current_bullet_counter++;
-                }
-                else
-                {
-                    current_bullet_counter = 0;
-                }
-            }
+            shoot_bullet();
         }
         else if (buttons & ControlRight)
         {
@@ -124,22 +127,7 @@ int main(int argc, char *argv[])
                 player_ccb->ccb_YPos += PLAYER_VEL_16;
             }
 
-            if (buttons & ControlA)
-            {
-                if (current_bullet_counter <= MAX_BULLETS)
-                {
-                    bullets[current_bullet_counter] = LoadCel("Graphics/bullet", MEMTYPE_CEL);
-
-                    bullets[current_bullet_counter]->ccb_XPos = player_ccb->ccb_XPos;
-                    bullets[current_bullet_counter]->ccb_YPos = player_ccb->ccb_YPos;
-
-                    current_bullet_counter++;
-                }
-                else
-                {
-                    current_bullet_counter = 0;
-                }
-            }
+            shoot_bullet();
         }
 
         else if (buttons & ControlUp)
@@ -155,22 +143,7 @@ int main(int argc, char *argv[])
                 player_ccb->ccb_XPos += PLAYER_VEL_16;
             }
 
-            if (buttons & ControlA)
-            {
-                if (current_bullet_counter <= MAX_BULLETS)
-                {
-                    bullets[current_bullet_counter] = LoadCel("Graphics/bullet", MEMTYPE_CEL);
-
-                    bullets[current_bullet_counter]->ccb_XPos = player_ccb->ccb_XPos;
-                    bullets[current_bullet_counter]->ccb_YPos = player_ccb->ccb_YPos;
-
-                    current_bullet_counter++;
-                }
-                else
-                {
-                    current_bullet_counter = 0;
-                }
-            }
+            shoot_bullet();
         }
         else if (buttons & ControlDown)
         {
@@ -185,22 +158,7 @@ int main(int argc, char *argv[])
                 player_ccb->ccb_XPos += PLAYER_VEL_16;
             }
 
-            if (buttons & ControlA)
-            {
-                if (current_bullet_counter <= MAX_BULLETS)
-                {
-                    bullets[current_bullet_counter] = LoadCel("Graphics/bullet", MEMTYPE_CEL);
-
-                    bullets[current_bullet_counter]->ccb_XPos = player_ccb->ccb_XPos;
-                    bullets[current_bullet_counter]->ccb_YPos = player_ccb->ccb_YPos;
-
-                    current_bullet_counter++;
-                }
-                else
-                {
-                    current_bullet_counter = 0;
-                }
-            }
+            shoot_bullet();
         }
         else if (buttons & ControlA)
         {
