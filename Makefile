@@ -1,6 +1,6 @@
 DEBUG = 1
 
-3DO_SDK    		= ~/Documents/Development/3do-devkit
+3DO_SDK    	= $3DO_DEVKIT
 EXTRA_TOOLS 	= ~/Documents/Development/3do-extra-tools
 
 FILESYSTEM = takeme
