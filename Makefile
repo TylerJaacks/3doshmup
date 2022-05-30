@@ -1,16 +1,16 @@
 DEBUG = 1
 
-3DO_SDK    	= $(3DO_DEVKIT)
-EXTRA_TOOLS 	= $(3DO_SDK)/bin/tools/linux
-
 FILESYSTEM = takeme
 EXENAME	   = $(FILESYSTEM)/LaunchMe
 ISONAME    = 3doshumup.iso
 STACKSIZE  = 4096
 BANNER	   = $(GRAPHICS_SRC)/banner/banner.bmp
 
-COMPILER_PATH = $(3DO_SDK)/bin/compiler/linux
-TOOLS_PATH = $(3DO_SDK)/bin/tools/linux
+COMPILER_PATH = $(THREEDO_DEVKIT)/bin/compiler/linux
+LINUX_TOOLS_PATH = $(THREEDO_DEVKIT)/bin/tools/linux
+WINDOWS_TOOLS_PATH = $(THREEDO_DEVKIT)/bin/tools/win
+
+WINDOWS_OUTPUT_PATH=/mnt/d/
 
 CC	   = $(COMPILER_PATH)/armcc
 CXX	   = $(COMPILER_PATH)/armcpp
@@ -20,20 +20,19 @@ RM	   = rm
 CP	   = cp
 WINE   = wine
 RETRO_ARCH = retroarch
-MODBIN     		= $(TOOLS_PATH)/modbin
-MAKEBANNER 		= $(TOOLS_PATH)/MakeBanner
-3DOISO     		= $(TOOLS_PATH)/3doiso
-3DOENCRYPT 		= $(TOOLS_PATH)/3DOEncrypt
-BMPTO3DOIMAGE 	= $(EXTRA_TOOLS)/BMPTo3DOImage.exe
-BMPTO3DOCEL 	= $(EXTRA_TOOLS)/BMPTo3DOCel.exe
+MODBIN     		= $(LINUX_TOOLS_PATH)/modbin
+MAKEBANNER 		= $(LINUX_TOOLS_PATH)/MakeBanner
+3DOISO     		= $(LINUX_TOOLS_PATH)/3doiso
+3DOENCRYPT 		= $(LINUX_TOOLS_PATH)/3DOEncrypt
+BMPTO3DOIMAGE 	= $(WINDOWS_TOOLS_PATH)/BMPTo3DOImage.exe
+BMPTO3DOCEL 	= $(WINDOWS_TOOLS_PATH)/BMPTo3DOCel.exe
 
-
-## Flag definitions ##
+# Flag definitions ##
 # -bigend   : Compiles code for an ARM operating with big-endian memory. The most
 #             significant byte has lowest address.
 # -za0      : LDR is not restricted to accessing word-aligned addresses.
 # -zps0     :
-# -zpv1     :
+#  # -zpv1     :
 # -zi4      : The compiler selects a value for the maximum number of instructions
 #             allowed to generate an integer literal inline before using LDR rx,=value
 # -fa       : Checks for certain types of data flow anomalies.
@@ -51,9 +50,9 @@ BMPTO3DOCEL 	= $(EXTRA_TOOLS)/BMPTo3DOCel.exe
 OPT      = -O0
 CFLAGS   = $(OPT) -bigend -za1 -zps0 -zi4 -fa -fh -fx -fpu none -arch 3 -apcs '/softfp/nofp/swstackcheck'
 CXXFLAGS = $(CFLAGS)
-ASFLAGS	 = -BI -i $(3DO_SDK)/include/3do
-INCPATH	 = -I $(3DO_SDK)/include/3do -I $(3DO_SDK)/include/ttl
-LIBPATH  = $(3DO_SDK)/lib/3do
+ASFLAGS	 = -BI -i $(THREEDO_DEVKIT)/include/3do
+INCPATH	 = -I $(THREEDO_DEVKIT)/include/3do -I $(THREEDO_DEVKIT)/include/ttl
+LIBPATH  = $(THREEDO_DEVKIT)/lib/3do
 LDFLAGS	 = -match 0x1 -nodebug -noscanlib -verbose -remove -aif -reloc -dupok -ro-base 0 -sym $(EXENAME).sym -libpath $(LIBPATH)
 STARTUP	 = $(LIBPATH)/cstartup.o
 
@@ -99,7 +98,7 @@ convert_bmp: buildgraphicsdir
 	$(WINE) $(BMPTO3DOCEL) $(GAME_GRAPHICS)/bullet.bmp $(CD_GRAPHICS)/bullet
 		
 copy:
-	$(CP) -r $(3DO_SDK)/takeme/System $(FILESYSTEM)
+	$(CP) -r $(THREEDO_DEVKIT)/takeme/System $(FILESYSTEM)
 
 launchme: builddir $(OBJ)
 	$(LD) -o $(EXENAME) $(LDFLAGS) $(STARTUP) $(LIBS) $(OBJ)
@@ -136,6 +135,6 @@ launch: all
 	$(RETRO_ARCH) -L  ~/.config/retroarch/cores/opera_libretro.so $(ISONAME) &
 
 copy_iso: all
-	$(CP) $(ISONAME) /mnt/d/
+	$(CP) $(ISONAME) $(WINDOWS_OUTPUT_PATH)
 
 .PHONY: clean modbin banner iso
