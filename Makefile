@@ -1,7 +1,7 @@
 DEBUG = 1
 
-3DO_SDK    	= $3DO_DEVKIT
-EXTRA_TOOLS 	= ~/Documents/Development/3do-extra-tools
+3DO_SDK    	= $(3DO_DEVKIT)
+EXTRA_TOOLS 	= $(3DO_SDK)/bin/tools/linux
 
 FILESYSTEM = takeme
 EXENAME	   = $(FILESYSTEM)/LaunchMe
